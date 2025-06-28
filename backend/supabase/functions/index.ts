@@ -21,20 +21,25 @@ const encoder = new TextEncoder();
 // }
 
 
-//я проверял все рабоает выдает
+//я проверял все работает, лично проверено
 
 
 async function validateInitData(initData: string): Promise<boolean> {
     try {
+        //тут мы получаем хэш
         const urlParams = new URLSearchParams(initData);
         const hash = urlParams.get("hash");
         if (!hash) return false;
+
+        //тута сортируем данные
 
         const dataCheckString = Array.from(urlParams.entries())
             .filter(([key]) => key !== "hash")
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([key, value]) => `${key}=${value}`)
             .join("\n");
+
+        //тут создаем ключ на основе метода шифрования
 
         const secretKey = await crypto.subtle.importKey(
             "raw",
@@ -58,6 +63,8 @@ async function validateInitData(initData: string): Promise<boolean> {
             ["verify"]
         );
 
+        //здесь уже проверяем сами подписи
+
         return await crypto.subtle.verify(
             "HMAC",
             verificationKey,
@@ -78,7 +85,7 @@ async function handler(req: Request): Promise<Response> {
 
 
     if (url.pathname === "/api/v1/test") {
-        // Проверяем авторизацию
+
         const initData = url.searchParams.get("tgWebAppInitData") ||
             req.headers.get("X-Telegram-Init-Data");
 
@@ -93,7 +100,7 @@ async function handler(req: Request): Promise<Response> {
         return handleTestRoute(req);
     }
 
-    // 404
+
     return new Response(JSON.stringify({ error: "Not found" }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
