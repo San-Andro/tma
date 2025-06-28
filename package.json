@@ -1,0 +1,23 @@
+{
+  "name": "tma-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@oak/oak": "npm:@jsr/oak__oak@^17.1.4",
+    "@supabase/supabase-js": "^2.50.0",
+    "crypto": "^1.0.1",
+    "ngrok": "^5.0.0-beta.2",
+    "node-telegram-bot-api": "^0.66.0",
+    "oak": "^9.0.0",
+    "telegraf": "^4.16.3",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  },
+  "private": true
+}
